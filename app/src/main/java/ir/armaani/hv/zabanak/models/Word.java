@@ -99,7 +99,7 @@ public class Word extends SugarRecord implements Serializable{
         return isLearned;
     }
 
-    private void resetLearning() {
+    public void resetLearning() {
         currentLevel = 1;
         nextReviewDate = new LocalDate().plusDays(1).toDate();
         save();
