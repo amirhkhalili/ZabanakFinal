@@ -56,16 +56,16 @@ public class PackageListViewAdapter extends ArrayAdapter<Package> {
             PackageNoPoster.setVisibility(View.GONE);
             PackagePoster.setImageBitmap(thisPackage.getImage());
         }
-        if(thisPackage.getExpiredWordsCount()<1){
+        if(thisPackage.getCountOfExpiredWords()<1){
             PackageExpireLayout.setVisibility(View.GONE);
         }else{
             PackageExpireLayout.setVisibility(View.VISIBLE);
         }
         PackageCaption.setText(String.valueOf(thisPackage.getCaption()));
-        PackageExpireWord.setText(String.valueOf(thisPackage.getExpiredWordsCount()));
-        PackageOkWord.setText(String.valueOf(thisPackage.getLearnedWordsCount()));
-        PackageNkWord.setText(String.valueOf(thisPackage.getTodayWordsCount()));
-        if (!thisPackage.isOpenToLearning()){
+        PackageExpireWord.setText(String.valueOf(thisPackage.getCountOfExpiredWords()));
+        PackageOkWord.setText(String.valueOf(thisPackage.getCountOfLearnedWords()));
+        PackageNkWord.setText(String.valueOf(thisPackage.getCountOfTodayWords()));
+        if (!thisPackage.canLearningBeStarted()){
             PackageLock.setVisibility(View.VISIBLE);
             PackageExpireLayout.setBackgroundResource(R.drawable.dark_desable);
             PackageNKLayout.setBackgroundResource(R.drawable.dark_desable);
