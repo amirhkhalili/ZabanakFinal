@@ -43,15 +43,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent myIntent = new Intent(MainActivity.this, PakageActivity.class);
                 myIntent.putExtra("series", adapter.getItem(position)); //Optional parameters
                 myIntent.putExtra("seriesId" , adapter.getItem(position).getId());
-                for (Package p : adapter.getItem(position).getPackages()) {
-                    try {
-                        p.startLearning();
-                    } catch (AlreadyStartedLearningException e) {
-                        //
-                    } catch (DependedPackageNotLearnedYetException e) {
-                        //e.printStackTrace();
-                    }
-                }
                 MainActivity.this.startActivity(myIntent);
             }
         });

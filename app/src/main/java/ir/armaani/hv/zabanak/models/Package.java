@@ -117,12 +117,12 @@ public class Package extends SugarRecord implements Serializable {
     }
 
     public Integer getCountOfExpiredWords() {
-        Long expiredWordsCount = Word.count(Word.class, "A_PACKAGE = ? AND NEXT_REVIEW_DATE IS NULL AND NEXT_REVIEW_DATE < ?", new String[]{getId().toString(), new LocalDate().toString()});
+        Long expiredWordsCount = Word.count(Word.class, "A_PACKAGE = ? AND NEXT_REVIEW_DATE IS NULL AND NEXT_REVIEW_DATE < ?", new String[]{getId().toString(), String.valueOf(new LocalDate().toDate().getTime())});
         return expiredWordsCount.intValue();
     }
 
     public Integer getCountOfTodayWords() {
-        Long todayWordsCount = Word.count(Word.class, "A_PACKAGE = ? AND NEXT_REVIEW_DATE = ?", new String[]{getId().toString(), new LocalDate().toString()});
+        Long todayWordsCount = Word.count(Word.class, "A_PACKAGE = ? AND NEXT_REVIEW_DATE = ?", new String[]{getId().toString(), String.valueOf(new LocalDate().toDate().getTime())});
         return todayWordsCount.intValue();
     }
 
@@ -132,13 +132,13 @@ public class Package extends SugarRecord implements Serializable {
     }
 
     public void resetAllExpiredWords() {
-        List<Word> words = Word.find(Word.class, "A_PACKAGE = ? AND NEXT_REVIEW_DATE IS NOT NULL AND NEXT_REVIEW_DATE < ?", getId().toString(), new LocalDate().toString());
+        List<Word> words = Word.find(Word.class, "A_PACKAGE = ? AND NEXT_REVIEW_DATE IS NOT NULL AND NEXT_REVIEW_DATE < ?", getId().toString(), String.valueOf(new LocalDate().toDate().getTime()));
         for (Word word : words)
             word.startLearning();
     }
 
     public List<Word> getTodayWords() {
-        return Word.find(Word.class, "A_PACKAGE = ? AND NEXT_REVIEW_DATE = ?", getId().toString(), new LocalDate().toString());
+        return Word.find(Word.class, "A_PACKAGE = ? AND NEXT_REVIEW_DATE = ?", getId().toString(), String.valueOf(new LocalDate().toDate().getTime()));
     }
 
     public void startLearning() throws AlreadyStartedLearningException, DependedPackageNotLearnedYetException, AlreadyFinishedLearningException {
@@ -185,12 +185,20 @@ public class Package extends SugarRecord implements Serializable {
         return true;
     }
 
-    private Boolean canLearningBeStarted() throws AlreadyStartedLearningException, AlreadyFinishedLearningException {
+    public Boolean isLearningInProgress() {
+        if (isLearningStarted() && !isLearningFinished())
+            return true;
+        return false;
+    }
+
+    public Boolean canLearningBeStarted() throws AlreadyStartedLearningException, AlreadyFinishedLearningException {
         if (isLearningStarted())
             throw new AlreadyStartedLearningException();
         if (isLearningFinished())
             throw new AlreadyFinishedLearningException();
 
+        if (dependOnPackage == null)
+            return true;
         List<Package> packages = Package.find(Package.class, "SERVER_ID = ?", dependOnPackage.toString());
         if (packages.size() == 1) {
             Package aPackage = packages.get(0);

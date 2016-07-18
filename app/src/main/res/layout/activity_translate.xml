@@ -75,7 +75,7 @@
             <ImageView
                 android:layout_width="72dp"
                 android:layout_height="72dp"
-                android:id="@+id/imageView3"
+                android:id="@+id/okWord"
                 android:background="@mipmap/ic_okword"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp" />
@@ -83,7 +83,7 @@
             <ImageView
                 android:layout_width="72dp"
                 android:layout_height="72dp"
-                android:id="@+id/imageView5"
+                android:id="@+id/nkWord"
                 android:background="@mipmap/ic_nkword"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp" />

@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import ir.armaani.hv.zabanak.R;
 import ir.armaani.hv.zabanak.activities.adapters.PackageListViewAdapter;
+import ir.armaani.hv.zabanak.exceptions.AlreadyFinishedLearningException;
 import ir.armaani.hv.zabanak.exceptions.AlreadyStartedLearningException;
 import ir.armaani.hv.zabanak.exceptions.DependedPackageNotLearnedYetException;
 import ir.armaani.hv.zabanak.models.Package;
@@ -48,15 +49,18 @@ public class PakageActivity extends AppCompatActivity {
                 Package aPackage = adapter.getItem(position);
                 try {
                     aPackage.startLearning();
+                    myIntent.putExtra("package", adapter.getItem(position)); //Optional parameters
+                    myIntent.putExtra("packageId" , adapter.getItem(position).getId());
+                    PakageActivity.this.startActivity(myIntent);
                 } catch (AlreadyStartedLearningException e) {
-                    //e.printStackTrace();
+                    myIntent.putExtra("package", adapter.getItem(position)); //Optional parameters
+                    myIntent.putExtra("packageId" , adapter.getItem(position).getId());
+                    PakageActivity.this.startActivity(myIntent);
                 } catch (DependedPackageNotLearnedYetException e) {
                     //e.printStackTrace();
+                } catch (AlreadyFinishedLearningException e) {
+                    //e.printStackTrace();
                 }
-
-                myIntent.putExtra("package", adapter.getItem(position)); //Optional parameters
-                myIntent.putExtra("packageId" , adapter.getItem(position).getId());
-                PakageActivity.this.startActivity(myIntent);
             }
         });
 

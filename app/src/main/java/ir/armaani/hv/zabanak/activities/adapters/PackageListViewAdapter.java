@@ -12,6 +12,8 @@ import android.widget.TextView;
 import java.util.List;
 
 import ir.armaani.hv.zabanak.R;
+import ir.armaani.hv.zabanak.exceptions.AlreadyFinishedLearningException;
+import ir.armaani.hv.zabanak.exceptions.AlreadyStartedLearningException;
 import ir.armaani.hv.zabanak.models.Package;
 
 
@@ -65,14 +67,23 @@ public class PackageListViewAdapter extends ArrayAdapter<Package> {
         PackageExpireWord.setText(String.valueOf(thisPackage.getCountOfExpiredWords()));
         PackageOkWord.setText(String.valueOf(thisPackage.getCountOfLearnedWords()));
         PackageNkWord.setText(String.valueOf(thisPackage.getCountOfTodayWords()));
-        if (!thisPackage.canLearningBeStarted()){
-            PackageLock.setVisibility(View.VISIBLE);
-            PackageExpireLayout.setBackgroundResource(R.drawable.dark_desable);
-            PackageNKLayout.setBackgroundResource(R.drawable.dark_desable);
-            PackageOKLayout.setBackgroundResource(R.drawable.dark_desable);
+        if (!thisPackage.isLearningInProgress() && !thisPackage.isLearningFinished()) {
+            try {
+                if (!thisPackage.canLearningBeStarted()) {
+                    PackageLock.setVisibility(View.VISIBLE);
+                    PackageExpireLayout.setBackgroundResource(R.drawable.dark_desable);
+                    PackageNKLayout.setBackgroundResource(R.drawable.dark_desable);
+                    PackageOKLayout.setBackgroundResource(R.drawable.dark_desable);
+                }else{
+                    PackageLock.setVisibility(View.GONE);
+                }
+            } catch (AlreadyStartedLearningException e) {
+                PackageLock.setVisibility(View.GONE);
+            } catch (AlreadyFinishedLearningException e) {
+                PackageLock.setVisibility(View.GONE);
+            }
         }else{
             PackageLock.setVisibility(View.GONE);
-
         }
 
         return rowView;
