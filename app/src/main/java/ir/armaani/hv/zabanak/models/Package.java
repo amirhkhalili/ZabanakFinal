@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.List;
 
 import ir.armaani.hv.zabanak.App;
+import ir.armaani.hv.zabanak.exceptions.AlreadyFinishedLearningException;
 import ir.armaani.hv.zabanak.exceptions.AlreadyStartedLearningException;
 import ir.armaani.hv.zabanak.exceptions.DependedPackageNotLearnedYetException;
 import ir.armaani.hv.zabanak.exceptions.SomeWordsNotLearnedYetException;
@@ -45,16 +46,16 @@ public class Package extends SugarRecord implements Serializable {
         this.series = series;
     }
 
-    public Boolean addNewPackageFromServer(ir.armaani.hv.zabanak.rest.responses.Package serverPackage , Series series) {
+    public Boolean addNewPackageFromServer(ir.armaani.hv.zabanak.rest.responses.Package serverPackage, Series series) {
         this.serverId = serverPackage.id;
         this.caption = serverPackage.caption;
-        this.dependOnPackage  = serverPackage.depend_on_package;
+        this.dependOnPackage = serverPackage.depend_on_package;
         this.imageFile = serverPackage.image;
         this.series = series;
         this.save();
-        for (ir.armaani.hv.zabanak.rest.responses.Word word:
+        for (ir.armaani.hv.zabanak.rest.responses.Word word :
                 serverPackage.words) {
-            new Word().addNewWordFromServer(word , this);
+            new Word().addNewWordFromServer(word, this);
         }
         return true;
     }
@@ -84,15 +85,15 @@ public class Package extends SugarRecord implements Serializable {
     }
 
     public String getImagePath() {
-        return Environment.getExternalStorageDirectory()+ "/" + App.getManifestValue("IMAGE_STORAGE_DIR") + "/" + imageFile;
+        return Environment.getExternalStorageDirectory() + "/" + App.getManifestValue("IMAGE_STORAGE_DIR") + "/" + imageFile;
     }
 
     public Bitmap getImage() {
         File imgFile = new File(getImagePath());
-        if(imgFile.exists()){
+        if (imgFile.exists()) {
             Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
             return myBitmap;
-        }else{
+        } else {
             return null;
         }
     }
@@ -115,17 +116,17 @@ public class Package extends SugarRecord implements Serializable {
         return dateOfLearningEnd;
     }
 
-    public Integer getExpiredWordsCount() {
+    public Integer getCountOfExpiredWords() {
         Long expiredWordsCount = Word.count(Word.class, "A_PACKAGE = ? AND NEXT_REVIEW_DATE IS NULL AND NEXT_REVIEW_DATE < ?", new String[]{getId().toString(), new LocalDate().toString()});
         return expiredWordsCount.intValue();
     }
 
-    public Integer getTodayWordsCount() {
+    public Integer getCountOfTodayWords() {
         Long todayWordsCount = Word.count(Word.class, "A_PACKAGE = ? AND NEXT_REVIEW_DATE = ?", new String[]{getId().toString(), new LocalDate().toString()});
         return todayWordsCount.intValue();
     }
 
-    public Integer getLearnedWordsCount() {
+    public Integer getCountOfLearnedWords() {
         Long learnedWordsCount = Word.count(Word.class, "A_PACKAGE = ? AND IS_LEARNED = ?", new String[]{getId().toString(), new Boolean(true).toString()});
         return learnedWordsCount.intValue();
     }
@@ -133,29 +134,40 @@ public class Package extends SugarRecord implements Serializable {
     public void resetAllExpiredWords() {
         List<Word> words = Word.find(Word.class, "A_PACKAGE = ? AND NEXT_REVIEW_DATE IS NOT NULL AND NEXT_REVIEW_DATE < ?", getId().toString(), new LocalDate().toString());
         for (Word word : words)
-            word.resetLearning();
+            word.startLearning();
     }
 
     public List<Word> getTodayWords() {
         return Word.find(Word.class, "A_PACKAGE = ? AND NEXT_REVIEW_DATE = ?", getId().toString(), new LocalDate().toString());
     }
 
-    public void startLearning() throws AlreadyStartedLearningException, DependedPackageNotLearnedYetException {
-        if (dateOfLearningStart == null) {
-            if (isOpenToLearning() != true)
-                throw new DependedPackageNotLearnedYetException();
+    public void startLearning() throws AlreadyStartedLearningException, DependedPackageNotLearnedYetException, AlreadyFinishedLearningException {
+        if (isLearningStarted())
+            throw new AlreadyStartedLearningException();
+        if (isLearningFinished())
+            throw new AlreadyFinishedLearningException();
+
+        if (canLearningBeStarted() == true) {
             List<Word> words = Word.find(Word.class, "A_PACKAGE = ?", getId().toString());
             for (Word word : words)
-                word.resetLearning();
+                word.startLearning();
             dateOfLearningStart = new LocalDate().toDate();
-        } else {
-            throw new AlreadyStartedLearningException();
+            save();
+        }else{
+            throw new DependedPackageNotLearnedYetException();
         }
+
     }
 
-    public void tryToFinishLearning() throws SomeWordsNotLearnedYetException {
-        if (getLearnedWordsCount() == getWordsCount()) {
+    public void finishLearning() throws SomeWordsNotLearnedYetException, AlreadyFinishedLearningException, AlreadyStartedLearningException {
+        if (isLearningStarted())
+            throw new AlreadyStartedLearningException();
+        if (isLearningFinished())
+            throw new AlreadyFinishedLearningException();
+
+        if (getCountOfLearnedWords() == getWordsCount()) {
             dateOfLearningEnd = new LocalDate().toDate();
+            save();
         } else {
             throw new SomeWordsNotLearnedYetException();
         }
@@ -167,15 +179,25 @@ public class Package extends SugarRecord implements Serializable {
         return true;
     }
 
-    public Boolean isOpenToLearning() {
-        if (dependOnPackage != null) {
-            List<Package> packages = Package.find(Package.class, "SERVER_ID = ?", dependOnPackage.toString());
-            if (packages.size() == 1) {
-                Package aPackage = packages.get(0);
-                if (aPackage.isLearningFinished() == false)
-                    return false;
-            }
+    public Boolean isLearningStarted() {
+        if (dateOfLearningStart == null)
+            return false;
+        return true;
+    }
+
+    private Boolean canLearningBeStarted() throws AlreadyStartedLearningException, AlreadyFinishedLearningException {
+        if (isLearningStarted())
+            throw new AlreadyStartedLearningException();
+        if (isLearningFinished())
+            throw new AlreadyFinishedLearningException();
+
+        List<Package> packages = Package.find(Package.class, "SERVER_ID = ?", dependOnPackage.toString());
+        if (packages.size() == 1) {
+            Package aPackage = packages.get(0);
+            if (aPackage.isLearningFinished() == false)
+                return false;
         }
+
         return true;
     }
 }

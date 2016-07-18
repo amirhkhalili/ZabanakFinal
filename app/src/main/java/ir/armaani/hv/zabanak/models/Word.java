@@ -9,6 +9,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 import ir.armaani.hv.zabanak.App;
+import ir.armaani.hv.zabanak.exceptions.AlreadyFinishedLearningException;
+import ir.armaani.hv.zabanak.exceptions.AlreadyStartedLearningException;
 import ir.armaani.hv.zabanak.exceptions.DoesNotStartedAlreadyException;
 import ir.armaani.hv.zabanak.exceptions.SomeWordsNotLearnedYetException;
 
@@ -99,7 +101,13 @@ public class Word extends SugarRecord implements Serializable{
         return isLearned;
     }
 
-    public void resetLearning() {
+    public void startLearning() {
+        currentLevel = 1;
+        nextReviewDate = new LocalDate().toDate();
+        save();
+    }
+
+    private void resetLearning() {
         currentLevel = 1;
         nextReviewDate = new LocalDate().plusDays(1).toDate();
         save();
@@ -114,9 +122,13 @@ public class Word extends SugarRecord implements Serializable{
                 isLearned = true;
                 save();
                 try {
-                    getaPackage().tryToFinishLearning();
+                    getaPackage().finishLearning();
                 } catch (SomeWordsNotLearnedYetException e) {
-                    //
+                    //e.printStackTrace();
+                } catch (AlreadyFinishedLearningException e) {
+                    //e.printStackTrace();
+                } catch (AlreadyStartedLearningException e) {
+                    //e.printStackTrace();
                 }
             } else {
                 DateTime newNextReviewDate = new DateTime(getNextReviewDate());

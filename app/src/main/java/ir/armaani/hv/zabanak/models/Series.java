@@ -68,7 +68,7 @@ public class Series extends SugarRecord implements Serializable {
     }
 
     public Integer getPackageCount() {
-        if (getPackages()==null)
+        if (getPackages() == null)
             return 0;
         return getPackages().size();
     }
@@ -82,47 +82,37 @@ public class Series extends SugarRecord implements Serializable {
     }
 
     public String getImagePath() {
-        return Environment.getExternalStorageDirectory()+ "/" + App.getManifestValue("IMAGE_STORAGE_DIR") + "/" +imageFile;
+        return Environment.getExternalStorageDirectory() + "/" + App.getManifestValue("IMAGE_STORAGE_DIR") + "/" + imageFile;
     }
 
     public Bitmap getImage() {
         File imgFile = new File(getImagePath());
-        if(imgFile.exists()){
+        if (imgFile.exists()) {
             Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
             return myBitmap;
-        }else{
+        } else {
             return null;
         }
     }
 
     public List<Package> getPackages() {
-        return Package.find(Package.class, "series = ?", getId().toString() );
+        return Package.find(Package.class, "series = ?", getId().toString());
     }
 
     public LearningMethod getLearningMethod() {
-        return LearningMethod.find(LearningMethod.class , "caption = ?" , "Leitner").get(0);
+        return LearningMethod.find(LearningMethod.class, "caption = ?", "Leitner").get(0);
     }
 
     //----------------------------------------------------------------------------------------------
 
-    public Boolean hasPackageInsideLearningProcess() {
-        Long packagesCount = Package.count(Package.class, "SERIES = ? AND DATE_OF_LEARNING_START != NULL AND DATE_OF_LEARNING_END = NULL", new String[]{getId().toString()});
-        if (packagesCount > 0)
-            return true;
-        else
-            return false;
+    public Boolean isLearningStarted() {
+        Long packagesCount = Package.count(Package.class, "SERIES = ? AND DATE_OF_LEARNING_START IS NOT NULL AND DATE_OF_LEARNING_END IS NULL", new String[]{getId().toString()});
+        return packagesCount > 0 ? true : false;
     }
 
-    public Boolean isCompletelyLearned() {
-        Long packagesCount = Package.count(Package.class, "SERIES = ? AND DATE_OF_LEARNING_END = NULL", new String[]{getId().toString()});
-        if (packagesCount > 0)
-            return false;
-        else
-            return true;
-    }
-
-    public List<Package> getPackagesInsideLearningProcess() {
-        return Package.find(Package.class, "SERIES = ? AND DATE_OF_LEARNING_START != NULL AND DATE_OF_LEARNING_END = NULL", getId().toString());
+    public Boolean isLearningFinished() {
+        Long packagesCount = Package.count(Package.class, "SERIES = ? AND DATE_OF_LEARNING_END IS NULL", new String[]{getId().toString()});
+        return packagesCount > 0 ? true : false;
     }
 
     //-------------------------------- STATIC METHODS ----------------------------------------------
@@ -130,41 +120,51 @@ public class Series extends SugarRecord implements Serializable {
         return Lists.newArrayList(Series.findAll(Series.class));
     }
 
-    public static List<Series> getListOfSeriesWithAPackageInsideLearningProcess() {
+    public static List<Series> getListOfSeriesThatLearningStarted() {
         SQLiteDatabase database = App.getDatabase();
-        Cursor cursor = database.rawQuery("SELECT DISTINCT SERIES FROM PACKAGE WHERE DATE_OF_LEARNING_START IS NOT NULL AND DATE_OF_LEARNING_END IS NULL" , null);
+        Cursor cursor = database.rawQuery("SELECT DISTINCT SERIES FROM PACKAGE WHERE DATE_OF_LEARNING_START IS NOT NULL AND DATE_OF_LEARNING_END IS NULL", null);
         if (cursor.getCount() > 0) {
             String seriesIds = "";
             try {
-                while(cursor.moveToNext())
+                while (cursor.moveToNext())
                     seriesIds += String.valueOf(cursor.getInt(0)) + ",";
-            }finally {
-                seriesIds = seriesIds.substring(0 , seriesIds.length() - 1);
+            } finally {
+                seriesIds = seriesIds.substring(0, seriesIds.length() - 1);
                 cursor.close();
             }
-            return Series.find(Series.class , "ID IN (?) " , seriesIds);
-        }else{
+            return Series.find(Series.class, "ID IN (?) ", seriesIds);
+        } else {
             cursor.close();
             return (new ArrayList<Series>());
         }
     }
 
-    public static List<Series> getListOfSeriesThatLearningProcessDoesNotStart() {
+    public static List<Series> getListOfSeriesThatLearningDoesNotStarted() {
         SQLiteDatabase database = App.getDatabase();
-        Cursor cursor = database.rawQuery("SELECT DISTINCT SERIES FROM PACKAGE WHERE DATE_OF_LEARNING_START IS NULL" , null);
+        Cursor cursor = database.rawQuery("SELECT DISTINCT SERIES FROM PACKAGE WHERE DATE_OF_LEARNING_START IS NULL", null);
         if (cursor.getCount() > 0) {
             String seriesIds = "";
             try {
-                while(cursor.moveToNext())
+                while (cursor.moveToNext())
                     seriesIds += String.valueOf(cursor.getInt(0)) + ",";
-            }finally {
-                seriesIds = seriesIds.substring(0 , seriesIds.length() - 1);
+            } finally {
+                seriesIds = seriesIds.substring(0, seriesIds.length() - 1);
                 cursor.close();
             }
-            return Series.find(Series.class , "ID IN (?) " , seriesIds);
-        }else{
+            return Series.find(Series.class, "ID IN (?) ", seriesIds);
+        } else {
             cursor.close();
             return (new ArrayList<Series>());
         }
+    }
+
+    public static List<Series> getListOfSeriesThatTodayMostReview() {
+        List<Series> series = getListOfSeriesThatLearningStarted();
+        ArrayList<Series> result = new ArrayList<>();
+        for (Series s : series)
+            for (Package p : s.getPackages())
+                if (p.getCountOfTodayWords() > 0)
+                    result.add(s);
+        return result;
     }
 }
