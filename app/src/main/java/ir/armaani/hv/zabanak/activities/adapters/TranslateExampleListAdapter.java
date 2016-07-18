@@ -12,15 +12,16 @@ import java.util.List;
 
 import ir.armaani.hv.zabanak.R;
 import ir.armaani.hv.zabanak.models.Series;
+import ir.armaani.hv.zabanak.rest.responses.Sentence;
 
 /**
  * Created by Siamak on 18/07/2016.
  */
-public class TranslateListAdapter extends ArrayAdapter<String> {
+public class TranslateExampleListAdapter extends ArrayAdapter<Sentence> {
 
     private final Context context;
-    private final List<String> itemsArrayList;
-    public TranslateListAdapter(Context context, List<String> itemsArrayList) {
+    private final List<Sentence> itemsArrayList;
+    public TranslateExampleListAdapter(Context context, List<Sentence> itemsArrayList) {
 
         super(context, R.layout.series_listview_layout, itemsArrayList);
 
@@ -36,11 +37,13 @@ public class TranslateListAdapter extends ArrayAdapter<String> {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 
-        View rowView = inflater.inflate(R.layout.translate_listview_layout, parent, false);
+        View rowView = inflater.inflate(R.layout.translate_listview_example_layout, parent, false);
 
-        TextView listText = (TextView) rowView.findViewById(R.id.textView);
+        TextView enExample = (TextView) rowView.findViewById(R.id.enExample);
+        TextView faExample = (TextView) rowView.findViewById(R.id.faExample);
 
-        listText.setText(itemsArrayList.get(position));
+        enExample.setText(itemsArrayList.get(position).sentence);
+        faExample.setText(itemsArrayList.get(position).meaning);
 
         return rowView;
     }

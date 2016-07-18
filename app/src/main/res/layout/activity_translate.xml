@@ -2,7 +2,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="320dp"
-    android:layout_height="420dp"
+    android:layout_height="480dp"
     tools:context=".activities.MainActivity">
 
     <RelativeLayout
@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:text="hello"
             android:id="@+id/word_txt"
-            android:layout_marginBottom="3dp"
+            android:layout_marginBottom="0dp"
             android:gravity="center"
             android:textSize="30dp" />
 
@@ -63,7 +63,8 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/linearLayout2">
+        android:id="@+id/linearLayout2"
+        android:background="#212121">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -73,16 +74,16 @@
             android:layout_centerHorizontal="true">
 
             <ImageView
-                android:layout_width="72dp"
-                android:layout_height="72dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:id="@+id/okWord"
                 android:background="@mipmap/ic_okword"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp" />
 
             <ImageView
-                android:layout_width="72dp"
-                android:layout_height="72dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:id="@+id/nkWord"
                 android:background="@mipmap/ic_nkword"
                 android:layout_marginLeft="5dp"

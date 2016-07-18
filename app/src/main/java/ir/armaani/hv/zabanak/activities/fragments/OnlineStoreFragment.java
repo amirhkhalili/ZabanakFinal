@@ -81,6 +81,18 @@ public class OnlineStoreFragment extends Fragment {
                             protected Void doInBackground(ir.armaani.hv.zabanak.rest.responses.Series... params) {
                                 Series newSeries1 = new Series();
                                 if (newSeries1.addNewSeriesFromServer(params[0])) {
+                                    Call<Void> call = RestClient.getApi().updateDownloadCounter(params[0].id);
+                                    call.enqueue(new Callback<Void>() {
+                                        @Override
+                                        public void onResponse(Call<Void> call, Response<Void> response) {
+
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<Void> call, Throwable t) {
+
+                                        }
+                                    });
                                     Intent myIntent = new Intent(   getActivity(), PakageActivity.class);
                                     myIntent.putExtra("series", newSeries1); //Optional parameters
                                     myIntent.putExtra("seriesId" , newSeries1.getId());

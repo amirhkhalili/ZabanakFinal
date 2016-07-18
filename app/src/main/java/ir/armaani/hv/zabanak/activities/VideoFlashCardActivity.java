@@ -9,8 +9,6 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -48,9 +46,6 @@ import java.io.IOException;
 import java.util.List;
 
 import ir.armaani.hv.zabanak.R;
-import ir.armaani.hv.zabanak.exceptions.AlreadyStartedLearningException;
-import ir.armaani.hv.zabanak.exceptions.DependedPackageNotLearnedYetException;
-import ir.armaani.hv.zabanak.exceptions.DoesNotStartedAlreadyException;
 import ir.armaani.hv.zabanak.models.Package;
 import ir.armaani.hv.zabanak.models.Word;
 
@@ -91,7 +86,7 @@ public class VideoFlashCardActivity extends AppCompatActivity implements Manifes
         playlistFetcher = new ManifestFetcher<>(word.getMovieURL(), new DefaultUriDataSource(this, userAgent), parser);
         playlistFetcher.singleLoad(mainHandler.getLooper(), this);
 
-        playerControl.seekTo(word.getPlayTime() * 1000);
+        playerControl.seekTo(500000);
     }
 
     @Override
@@ -118,7 +113,7 @@ public class VideoFlashCardActivity extends AppCompatActivity implements Manifes
         img = (ImageView) findViewById(R.id.videoFlashcardBackground);
         surface = (SurfaceView) findViewById(R.id.surface_view); // we import surface
         txt_playState = (TextView) findViewById(R.id.txt_playstate);
-        btn_play = (ImageView) findViewById(R.id.btn_play);
+        btn_play = (ImageView) findViewById(R.id.btn_pause);
         btn_pause = (ImageView) findViewById(R.id.btn_pause);
         VideoLayout = (RelativeLayout) findViewById(R.id.VideoLayout);
         words_txt = (TextView) findViewById(R.id.words_txt);
@@ -131,10 +126,13 @@ public class VideoFlashCardActivity extends AppCompatActivity implements Manifes
         showTranslate_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                playerControl.pause();
                 Intent myIntent = new Intent(VideoFlashCardActivity.this, TranslateActivity.class);
                 myIntent.putExtra("word", currentWord); //Optional parameters
                 myIntent.putExtra("wordId", currentWord.getId());
                 VideoFlashCardActivity.this.startActivityForResult(myIntent, 0);
+
+
             }
         });
 
@@ -217,6 +215,8 @@ public class VideoFlashCardActivity extends AppCompatActivity implements Manifes
         if (requestFocus())
             player.setPlayWhenReady(true);
 
+
+
         nextTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -292,7 +292,7 @@ public class VideoFlashCardActivity extends AppCompatActivity implements Manifes
 
     @Override
     public void onPlayWhenReadyCommitted() {
-
+        playerControl.seekTo(currentWord.getPlayTime()*1000);
     }
 
     @Override
