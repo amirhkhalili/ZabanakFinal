@@ -130,6 +130,30 @@
                 android:background="@mipmap/previous_sub"
                 android:layout_marginRight="-7dp" />
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:id="@+id/imageView6"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/gradient" />
+
+            <SeekBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/seekBar"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp" />
+
         </RelativeLayout>
     </RelativeLayout>
 
@@ -155,40 +179,11 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp" />
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/linearLayout"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="60dp"
-            android:visibility="visible">
-
-            <ImageView
-                android:layout_width="72dp"
-                android:layout_height="72dp"
-                android:id="@+id/okWord"
-                android:layout_below="@+id/words_txt"
-                android:layout_centerHorizontal="true"
-                android:background="@mipmap/ic_okword"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="10dp" />
-
-            <ImageView
-                android:layout_width="72dp"
-                android:layout_height="72dp"
-                android:id="@+id/nkWord"
-                android:background="@mipmap/ic_nkword"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="10dp" />
-        </LinearLayout>
-
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="نمایش ترجمه"
-            android:id="@+id/NextWord"
+            android:id="@+id/showTranslate"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="40dp"
             android:layout_alignParentRight="true"

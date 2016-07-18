@@ -36,18 +36,16 @@ public class TranslateListAdapter extends ArrayAdapter<Series> {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         // 2. Get rowView from inflater
-        View rowView = inflater.inflate(R.layout.series_listview_layout, parent, false);
+        View rowView = inflater.inflate(R.layout.translate_listview_layout, parent, false);
 
         // 3. Get the two text view from the rowView
-        ImageView seriesImage = (ImageView) rowView.findViewById(R.id.seriesImage);
-        ImageView seriesImageBackground = (ImageView) rowView.findViewById(R.id.seriesImageBack);
         TextView seriesCaption = (TextView) rowView.findViewById(R.id.seriesCaptipn);
         TextView pakageCount = (TextView)rowView.findViewById(R.id.packageCount);
 
         // 4. Set the text for textView
-        seriesImage.setImageBitmap(itemsArrayList.get(position).getImage());
-        pakageCount.setText(itemsArrayList.get(position).getPackageCount());
-        seriesImageBackground.setImageBitmap(itemsArrayList.get(position).getImage());
+       // seriesImage.setImageBitmap(itemsArrayList.get(position).getImage());
+       // pakageCount.setText(itemsArrayList.get(position).getPackageCount());
+        //seriesImageBackground.setImageBitmap(itemsArrayList.get(position).getImage());
         seriesCaption.setText(itemsArrayList.get(position).getCaption());
 
         // 5. retrn rowView

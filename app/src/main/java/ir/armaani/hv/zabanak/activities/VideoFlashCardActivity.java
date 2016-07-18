@@ -15,6 +15,7 @@ import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.google.android.exoplayer.DefaultLoadControl;
@@ -47,6 +48,8 @@ import java.io.IOException;
 import java.util.List;
 
 import ir.armaani.hv.zabanak.R;
+import ir.armaani.hv.zabanak.exceptions.AlreadyStartedLearningException;
+import ir.armaani.hv.zabanak.exceptions.DependedPackageNotLearnedYetException;
 import ir.armaani.hv.zabanak.exceptions.DoesNotStartedAlreadyException;
 import ir.armaani.hv.zabanak.models.Package;
 import ir.armaani.hv.zabanak.models.Word;
@@ -71,8 +74,9 @@ public class VideoFlashCardActivity extends AppCompatActivity implements Manifes
         private MediaCodecAudioTrackRenderer audioRenderer;
         RelativeLayout ControllerLayout;
         RelativeLayout VideoLayout;
-        WebView Nodata,Translate;
-        ImageView nextTime,nextSub,previousTime,previousSub,OKword,NKword;
+        WebView Nodata;
+        ImageView nextTime,nextSub,previousTime,previousSub;
+        SeekBar seekBar;
         @Override
         protected void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
@@ -89,11 +93,9 @@ public class VideoFlashCardActivity extends AppCompatActivity implements Manifes
                 nextTime = (ImageView)findViewById(R.id.nextTime);
                 previousTime = (ImageView)findViewById(R.id.previousTime);
                 previousSub = (ImageView)findViewById(R.id.previousSub);
-                OKword = (ImageView)findViewById(R.id.okWord);
-                NKword = (ImageView)findViewById(R.id.nkWord);
-                final Button NextWord = (Button)findViewById(R.id.NextWord);
+
+                final Button showTranslate_btn = (Button)findViewById(R.id.showTranslate);
                 Nodata = (WebView)findViewById(R.id.webViewNodata) ;
-                Translate = (WebView)findViewById(R.id.TranslatewebView) ;
                 ControllerLayout = (RelativeLayout)findViewById(R.id.ControllerLayout);
                 ImageView img = (ImageView)findViewById(R.id.videoFlashcardBackground);
                 surface = (SurfaceView) findViewById(R.id.surface_view); // we import surface
@@ -102,73 +104,34 @@ public class VideoFlashCardActivity extends AppCompatActivity implements Manifes
                 btn_pause = (ImageView) findViewById(R.id.btn_pause);
                 VideoLayout = (RelativeLayout) findViewById(R.id.VideoLayout);
                 words_txt = (TextView)findViewById(R.id.words_txt);
+                seekBar = (SeekBar)findViewById(R.id.seekBar);
 
             player = ExoPlayer.Factory.newInstance(2);
             playerControl = new PlayerControl(player);
+
+
 
                 for(final Word word:wordsList) {
                         video_url= word.getMovieURL();
                         words_txt.setText(word.getWord());
                         playerControl.seekTo(word.getPlayTime()*1000);
                         img.setImageBitmap(word.getaPackage().getImage());
+                        seekBar.setProgress(50);
 
 
-                NextWord.setVisibility(View.GONE);
                 ControllerLayout.setVisibility(View.GONE);
 
-
                 Nodata.loadUrl("file:///android_asset/html/nodata.html");
-                Translate.loadUrl("file:///android_asset/html/translate.html");
-                Translate.setVisibility(View.INVISIBLE);
 
 
-                OKword.setOnClickListener(new View.OnClickListener() {
+
+
+                        showTranslate_btn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                                Animation animation1 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.down);
-                                playerControl.pause();
-                                Translate.setVisibility(View.VISIBLE);
-                                Translate.startAnimation(animation1);
-                                NextWord.setVisibility(View.VISIBLE);
-                                OKword.setVisibility(View.GONE);
-                                NKword.setVisibility(View.GONE);
-                                try {
-                                        word.doSuccess();
-                                } catch (DoesNotStartedAlreadyException e) {
-                                        e.printStackTrace();
-                                }
-
-                        }
-                });
-
-
-                NKword.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                                Animation animation1 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.down);
-                                playerControl.pause();
-                                Translate.setVisibility(View.VISIBLE);
-                                Translate.startAnimation(animation1);
-                                NextWord.setVisibility(View.VISIBLE);
-                                OKword.setVisibility(View.GONE);
-                                NKword.setVisibility(View.GONE);
-                                try {
-                                        word.doFailure();
-                                } catch (DoesNotStartedAlreadyException e) {
-                                        e.printStackTrace();
-                                }
-                        }
-                });
-
-
-                NextWord.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent myIntent = new Intent(VideoFlashCardActivity.this, VideoFlashCardActivity.class);
-                            myIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                            VideoFlashCardActivity.this.startActivity(myIntent);
-                            finish();
-
+                                Intent myIntent = new Intent(VideoFlashCardActivity.this, PakageActivity.class);
+                                myIntent.putExtra("word", word.getId()); //Optional parameters
+                                VideoFlashCardActivity.this.startActivity(myIntent);
                         }
                 });
 
