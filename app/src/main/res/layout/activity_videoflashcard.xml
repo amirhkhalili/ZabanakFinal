@@ -54,7 +54,7 @@
             android:layout_alignParentEnd="true"
             android:layout_margin="0dp" />
 
-        <ir.armaani.hv.zabanak.activities.SanseBoldTextview
+        <ir.armaani.hv.zabanak.activities.uiComponent.SanseBoldTextview
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -133,19 +133,6 @@
         </RelativeLayout>
     </RelativeLayout>
 
-    <WebView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/TranslatewebView"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:visibility="invisible"
-        android:layout_marginBottom="100dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginRight="16dp" />
-
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -156,7 +143,7 @@
         android:layout_below="@+id/VideoLayout"
         android:id="@+id/relativeLayout">
 
-        <ir.armaani.hv.zabanak.activities.SanseTextview
+        <ir.armaani.hv.zabanak.activities.uiComponent.SanseTextview
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -200,7 +187,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="بعدی"
+            android:text="نمایش ترجمه"
             android:id="@+id/NextWord"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="40dp"

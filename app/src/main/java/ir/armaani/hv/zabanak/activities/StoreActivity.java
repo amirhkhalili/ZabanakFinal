@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
 import ir.armaani.hv.zabanak.R;
+import ir.armaani.hv.zabanak.activities.adapters.StoreTabAdapter;
 
 
 public class StoreActivity extends AppCompatActivity {

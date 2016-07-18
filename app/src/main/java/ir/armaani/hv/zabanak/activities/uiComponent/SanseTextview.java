@@ -1,4 +1,4 @@
-package ir.armaani.hv.zabanak.activities;
+package ir.armaani.hv.zabanak.activities.uiComponent;
 
 import android.content.Context;
 import android.graphics.Typeface;

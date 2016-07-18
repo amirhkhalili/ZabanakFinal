@@ -1,4 +1,4 @@
-package ir.armaani.hv.zabanak.activities;
+package ir.armaani.hv.zabanak.activities.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import ir.armaani.hv.zabanak.R;
+import ir.armaani.hv.zabanak.activities.adapters.SeriesListViewAdapter;
 import ir.armaani.hv.zabanak.models.Series;
 
 /**

@@ -1,8 +1,10 @@
-package ir.armaani.hv.zabanak.activities;
+package ir.armaani.hv.zabanak.activities.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+
+import ir.armaani.hv.zabanak.activities.fragments.TranslateFragment;
 
 /**
  * Created by Amirhossein on 17/07/2016.

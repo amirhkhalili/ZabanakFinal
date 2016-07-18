@@ -36,7 +36,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp" />
 
-    <ir.armaani.hv.zabanak.activities.SanseTextview
+    <ir.armaani.hv.zabanak.activities.uiComponent.SanseTextview
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -48,7 +48,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="150dp" />
 
-    <ir.armaani.hv.zabanak.activities.SanseTextview
+    <ir.armaani.hv.zabanak.activities.uiComponent.SanseTextview
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"

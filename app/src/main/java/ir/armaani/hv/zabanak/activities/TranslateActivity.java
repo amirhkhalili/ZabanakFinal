@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 
 import ir.armaani.hv.zabanak.R;
+import ir.armaani.hv.zabanak.activities.adapters.TranslateTabAdapter;
 
 public class TranslateActivity extends ActionBarActivity {
 

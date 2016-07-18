@@ -1,4 +1,4 @@
-package ir.armaani.hv.zabanak.activities;
+package ir.armaani.hv.zabanak.activities.fragments;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -17,6 +17,8 @@ import java.util.List;
 
 import ir.armaani.hv.zabanak.App;
 import ir.armaani.hv.zabanak.R;
+import ir.armaani.hv.zabanak.activities.PakageActivity;
+import ir.armaani.hv.zabanak.activities.adapters.OnlineStoreFragmentAdapter;
 import ir.armaani.hv.zabanak.models.Series;
 import ir.armaani.hv.zabanak.rest.RestClient;
 import ir.armaani.hv.zabanak.rest.responses.SeriesSummary;

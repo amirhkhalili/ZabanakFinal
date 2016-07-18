@@ -1,4 +1,4 @@
-package ir.armaani.hv.zabanak.activities;
+package ir.armaani.hv.zabanak.activities.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,17 +11,16 @@ import android.widget.TextView;
 import java.util.List;
 
 import ir.armaani.hv.zabanak.R;
-import ir.armaani.hv.zabanak.helpers.ImageDownloader;
-import ir.armaani.hv.zabanak.rest.responses.SeriesSummary;
+import ir.armaani.hv.zabanak.models.Series;
 
 /**
  * Created by Amirhossein on 08/07/2016.
  */
-public class OnlineStoreFragmentAdapter extends ArrayAdapter<SeriesSummary> {
+public class SeriesListViewAdapter extends ArrayAdapter<Series> {
 
     private final Context context;
-    private final List<SeriesSummary> itemsArrayList;
-    public OnlineStoreFragmentAdapter(Context context, List<SeriesSummary> itemsArrayList) {
+    private final List<Series> itemsArrayList;
+    public SeriesListViewAdapter(Context context, List<Series> itemsArrayList) {
 
         super(context, R.layout.series_listview_layout, itemsArrayList);
 
@@ -31,7 +30,7 @@ public class OnlineStoreFragmentAdapter extends ArrayAdapter<SeriesSummary> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final SeriesSummary thisItem = itemsArrayList.get(position);
+
         // 1. Create inflater
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -40,17 +39,16 @@ public class OnlineStoreFragmentAdapter extends ArrayAdapter<SeriesSummary> {
         View rowView = inflater.inflate(R.layout.series_listview_layout, parent, false);
 
         // 3. Get the two text view from the rowView
-        final ImageView seriesImage = (ImageView) rowView.findViewById(R.id.seriesImage);
-        final ImageView seriesImageBackground = (ImageView) rowView.findViewById(R.id.seriesImageBack);
+        ImageView seriesImage = (ImageView) rowView.findViewById(R.id.seriesImage);
+        ImageView seriesImageBackground = (ImageView) rowView.findViewById(R.id.seriesImageBack);
         TextView seriesCaption = (TextView) rowView.findViewById(R.id.seriesCaptipn);
         TextView pakageCount = (TextView)rowView.findViewById(R.id.packageCount);
 
         // 4. Set the text for textView
-
-        ImageDownloader.downloadImageOnTheFly(thisItem.image , seriesImage);
-        ImageDownloader.downloadImageOnTheFly(thisItem.image , seriesImageBackground);
-        pakageCount.setText(String.valueOf(thisItem.download_count)+ " بار دریافت شده");
-        seriesCaption.setText(thisItem.name);
+        seriesImage.setImageBitmap(itemsArrayList.get(position).getImage());
+        pakageCount.setText(itemsArrayList.get(position).getPackageCount().toString());
+        seriesImageBackground.setImageBitmap(itemsArrayList.get(position).getImage());
+        seriesCaption.setText(itemsArrayList.get(position).getCaption());
 
         // 5. retrn rowView
         return rowView;

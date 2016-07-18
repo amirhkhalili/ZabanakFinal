@@ -14,7 +14,7 @@
         android:padding="10dp"
         android:id="@+id/relativeLayout2">
 
-        <ir.armaani.hv.zabanak.activities.SanseTextview
+        <ir.armaani.hv.zabanak.activities.uiComponent.SanseTextview
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="hello"
@@ -23,7 +23,7 @@
             android:gravity="center"
             android:textSize="30dp" />
 
-        <ir.armaani.hv.zabanak.activities.SanseTextview
+        <ir.armaani.hv.zabanak.activities.uiComponent.SanseTextview
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="هالو (کلمه ای که در گفتگوی تلفنی برای صدا کردن طرف بکار می‌رود)، سلام کردن"
