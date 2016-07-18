@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="100dp">
 
-            <ir.armaani.hv.zabanak.activities.SanseTextview
+            <ir.armaani.hv.zabanak.activities.uiComponent.SanseTextview
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -54,7 +54,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignTop="@+id/seriesCaptipn">
 
-                <ir.armaani.hv.zabanak.activities.SanseTextview
+                <ir.armaani.hv.zabanak.activities.uiComponent.SanseTextview
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"

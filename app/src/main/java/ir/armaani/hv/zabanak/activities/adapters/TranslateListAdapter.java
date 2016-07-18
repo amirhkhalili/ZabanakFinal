@@ -1,4 +1,4 @@
-package ir.armaani.hv.zabanak.activities;
+package ir.armaani.hv.zabanak.activities.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -14,13 +14,13 @@ import ir.armaani.hv.zabanak.R;
 import ir.armaani.hv.zabanak.models.Series;
 
 /**
- * Created by Amirhossein on 08/07/2016.
+ * Created by Siamak on 18/07/2016.
  */
-public class SeriesListViewAdapter extends ArrayAdapter<Series> {
+public class TranslateListAdapter extends ArrayAdapter<Series> {
 
     private final Context context;
     private final List<Series> itemsArrayList;
-    public SeriesListViewAdapter(Context context, List<Series> itemsArrayList) {
+    public TranslateListAdapter(Context context, List<Series> itemsArrayList) {
 
         super(context, R.layout.series_listview_layout, itemsArrayList);
 
@@ -46,7 +46,7 @@ public class SeriesListViewAdapter extends ArrayAdapter<Series> {
 
         // 4. Set the text for textView
         seriesImage.setImageBitmap(itemsArrayList.get(position).getImage());
-        pakageCount.setText(itemsArrayList.get(position).getPackageCount().toString());
+        pakageCount.setText(itemsArrayList.get(position).getPackageCount());
         seriesImageBackground.setImageBitmap(itemsArrayList.get(position).getImage());
         seriesCaption.setText(itemsArrayList.get(position).getCaption());
 
@@ -54,4 +54,3 @@ public class SeriesListViewAdapter extends ArrayAdapter<Series> {
         return rowView;
     }
 }
-

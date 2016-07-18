@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import ir.armaani.hv.zabanak.R;
+import ir.armaani.hv.zabanak.activities.adapters.SeriesListViewAdapter;
 import ir.armaani.hv.zabanak.exceptions.AlreadyStartedLearningException;
 import ir.armaani.hv.zabanak.exceptions.DependedPackageNotLearnedYetException;
 import ir.armaani.hv.zabanak.models.Package;

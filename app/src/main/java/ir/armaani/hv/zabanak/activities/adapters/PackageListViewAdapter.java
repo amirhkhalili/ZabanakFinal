@@ -1,4 +1,4 @@
-package ir.armaani.hv.zabanak.activities;
+package ir.armaani.hv.zabanak.activities.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;

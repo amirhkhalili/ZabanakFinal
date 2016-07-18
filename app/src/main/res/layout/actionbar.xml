@@ -14,7 +14,7 @@
         android:background="@mipmap/ic_logow"
         android:layout_marginRight="0dp" />
 
-    <ir.armaani.hv.zabanak.activities.SanseBoldTextview
+    <ir.armaani.hv.zabanak.activities.uiComponent.SanseBoldTextview
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -37,7 +37,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
-        <ir.armaani.hv.zabanak.activities.SanseTextview
+        <ir.armaani.hv.zabanak.activities.uiComponent.SanseTextview
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -50,7 +50,7 @@
             android:layout_alignParentEnd="true"
             android:layout_marginRight="0dp" />
 
-        <ir.armaani.hv.zabanak.activities.SanseTextview
+        <ir.armaani.hv.zabanak.activities.uiComponent.SanseTextview
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
