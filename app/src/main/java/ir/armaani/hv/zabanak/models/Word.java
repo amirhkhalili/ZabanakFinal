@@ -5,6 +5,7 @@ import com.orm.SugarRecord;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import ir.armaani.hv.zabanak.App;
@@ -14,7 +15,7 @@ import ir.armaani.hv.zabanak.exceptions.SomeWordsNotLearnedYetException;
 /**
  * Created by Siamak on 06/07/2016.
  */
-public class Word extends SugarRecord {
+public class Word extends SugarRecord implements Serializable{
     //-------------------------------- SERVER ATTRIBUTES -------------------------------------------
     private Integer serverId;
     private String word;
