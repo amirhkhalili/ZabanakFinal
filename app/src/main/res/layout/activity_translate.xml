@@ -1,0 +1,58 @@
+<RelativeLayout android:id="@+id/main_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="320dp"
+    android:layout_height="420dp"
+    tools:context=".activities.MainActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:padding="10dp"
+        android:id="@+id/relativeLayout2">
+
+        <ir.armaani.hv.zabanak.activities.SanseTextview
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="hello"
+            android:id="@+id/textView5"
+            android:layout_marginBottom="3dp"
+            android:gravity="center"
+            android:textSize="30dp" />
+
+        <ir.armaani.hv.zabanak.activities.SanseTextview
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="هالو (کلمه ای که در گفتگوی تلفنی برای صدا کردن طرف بکار می‌رود)، سلام کردن"
+            android:id="@+id/textView7"
+            android:layout_below="@+id/textView5"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:gravity="end"
+            android:textAlignment="viewEnd" />
+
+    </RelativeLayout>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout_translate2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:elevation="6dp"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:layout_below="@+id/relativeLayout2"
+        android:layout_alignLeft="@+id/pager_translate2"
+        android:layout_alignStart="@+id/pager_translate2" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager_translate2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tab_layout_translate2"
+        android:background="#212121" />
+
+</RelativeLayout>

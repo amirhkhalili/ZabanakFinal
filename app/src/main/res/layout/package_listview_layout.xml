@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="visible">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <ir.armaani.hv.zabanak.activities.SanseTextview
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/packageCaption"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/packagePoster"
+            android:layout_toStartOf="@+id/packagePoster"
+            android:textSize="15dp"
+            android:textColor="#e0e0e0"
+            android:layout_marginRight="15dp" />
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:id="@+id/packagePoster"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/expireWordLayout"
+            android:background="@drawable/redbox"
+            android:visibility="visible"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/PackageokLayout"
+            android:layout_toEndOf="@+id/PackageokLayout"
+            android:layout_marginLeft="12dp">
+
+            <ir.armaani.hv.zabanak.activities.SanseTextview
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="342"
+                android:id="@+id/expireWordCounterText"
+                android:textColor="#bdbdbd"
+                android:textSize="10sp"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:paddingTop="2dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/PackagenkLayout"
+            android:background="@drawable/bluebox"
+            android:visibility="visible"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="8dp">
+
+            <ir.armaani.hv.zabanak.activities.SanseTextview
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="15"
+                android:id="@+id/nkWordCounterText"
+                android:textColor="#bdbdbd"
+                android:textSize="10sp"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:paddingTop="2dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/PackagenkLayout"
+            android:layout_toEndOf="@+id/PackagenkLayout"
+            android:layout_marginLeft="12dp"
+            android:id="@+id/PackageokLayout"
+            android:background="@drawable/greenbox"
+            android:visibility="visible">
+
+            <ir.armaani.hv.zabanak.activities.SanseTextview
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="15"
+                android:id="@+id/okWordCounterText"
+                android:textColor="#bdbdbd"
+                android:textSize="10sp"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:paddingTop="2dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignLeft="@+id/packagePoster"
+            android:layout_alignStart="@+id/packagePoster"
+            android:background="#B3212121"
+            android:id="@+id/ifNoPosterRelativeLayout"
+            android:visibility="visible">
+
+            <ir.armaani.hv.zabanak.activities.SanseTextview
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="2"
+                android:id="@+id/packageIdText"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:textColor="#e0e0e0"
+                android:textSize="30sp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="#CC616161"
+            android:visibility="gone"
+            android:id="@+id/packageLockRelativeLayout">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:id="@+id/imageView4"
+                android:background="@mipmap/ic_lock2"
+                android:visibility="visible"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="5dp" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>
