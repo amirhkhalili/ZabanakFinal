@@ -5,12 +5,14 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import ir.armaani.hv.zabanak.R;
 import ir.armaani.hv.zabanak.activities.adapters.TranslateTabAdapter;
 
 public class TranslateActivity extends ActionBarActivity {
     ImageView okWord_btn,nkWord_btn;
+    TextView word,wordTranslate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +29,8 @@ public class TranslateActivity extends ActionBarActivity {
 
         okWord_btn = (ImageView)findViewById(R.id.okWord);
         nkWord_btn = (ImageView)findViewById(R.id.nkWord);
+        word = (TextView)findViewById(R.id.word_txt);
+        wordTranslate = (TextView)findViewById(R.id.wordTranslate_txt);
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(t));
         t.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
