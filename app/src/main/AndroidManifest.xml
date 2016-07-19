@@ -36,7 +36,7 @@
             android:value="http://79.175.176.80/~zabanak/cdn/web/files/image/" />
         <meta-data
             android:name="SUBTITLES_URL"
-            android:value="" />
+            android:value="http://79.175.176.80/~zabanak/cdn/web/files/srt/" />
         <meta-data
             android:name="VIDEOS_URL"
             android:value="http://79.175.176.80/~zabanak/cdn/web/files/mpd/" />
@@ -66,7 +66,7 @@
             android:name=".activities.TranslateActivity"
             android:excludeFromRecents="true"
             android:theme="@style/AlertDialogTheme" />
-        <activity android:name=".activities.MessageActivity" />
+        <activity android:name=".activities.MessageActivity"></activity>
 
         <service
             android:name=".NotificationHandler"
@@ -75,9 +75,6 @@
                 <action android:name="com.onesignal.NotificationExtender" />
             </intent-filter>
         </service>
-
-        <activity android:name=".activities.HelpActivity"
-            android:screenOrientation="landscape"></activity>
     </application>
 
 </manifest>

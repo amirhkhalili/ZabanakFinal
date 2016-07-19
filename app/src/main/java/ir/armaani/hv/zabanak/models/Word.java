@@ -75,6 +75,12 @@ public class Word extends SugarRecord implements Serializable{
     public String getMovieURL() {
         return App.getManifestValue("VIDEOS_URL") + getMovie().substring(0 , getMovie().length() - 4) + "/stream.mpd";
     }
+    public String getFaSubtitleURL(){
+        return App.getManifestValue("SUBTITLES_URL") + "/fa/" + getMovie().substring(0 , getMovie().length() - 4) + ".srt";
+    }
+    public String getEnSubtitleURL(){
+        return App.getManifestValue("SUBTITLES_URL") + "/en/" + getMovie().substring(0 , getMovie().length() - 4) + ".srt";
+    }
 
     public Integer getPlayTime() {
         return playTime;

@@ -49,6 +49,10 @@
 
         </SurfaceView>
 
+        <com.google.android.exoplayer.text.SubtitleLayout android:id="@+id/subtitles"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
         <WebView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"

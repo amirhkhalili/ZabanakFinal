@@ -1,7 +1,6 @@
 package ir.armaani.hv.zabanak.activities;
 
 import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -25,11 +24,9 @@ public class StoreActivity extends AppCompatActivity {
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     REQUEST_WRITE_STORAGE);
         }
-        super.onCreate(savedInstanceState);
-        Intent intent = getIntent();
-        String title = intent.getStringExtra("title");
-        String content = intent.getStringExtra("content");
 
+
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("مجموعه های من"));
@@ -41,12 +38,6 @@ public class StoreActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-
-        if (title != null || content != null) {
-            tabLayout.getTabAt(1).select();
-            viewPager.setCurrentItem(1);
-        }
-
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
