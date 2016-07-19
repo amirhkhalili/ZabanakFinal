@@ -4,13 +4,17 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -44,24 +48,38 @@ public class OnlineStoreFragment extends Fragment {
                 List<SeriesSummary> result = response.body();
                 final OnlineStoreFragmentAdapter adapter = new OnlineStoreFragmentAdapter(App.getContext(), result);
                 listView.setAdapter(adapter);
-                editText = (EditText) rootView.findViewById(R.id.SearchBox);
-                editText.setHint("جستجو کنید ...");
-                editText.setOnKeyListener(new View.OnKeyListener() {
-                    @Override
-                    public boolean onKey(View v, int keyCode, KeyEvent event) {
-                        if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
-                                (keyCode == KeyEvent.KEYCODE_ENTER)) {
-
-                            return true;
-                        }
-                        return false;
-                    }
-                });
             }
 
             @Override
             public void onFailure(Call<List<SeriesSummary>> call, Throwable t) {
                 Toast.makeText(App.getContext(),"اتصال به اینترنت خود را بررسی نمایید.",Toast.LENGTH_LONG).show();
+            }
+        });
+
+        editText = (EditText) rootView.findViewById(R.id.SearchBox);
+        editText.setHint("جستجو کنید ...");
+        editText.setFocusableInTouchMode(true);
+        editText.requestFocus();
+        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    Call<List<SeriesSummary>> call = RestClient.getApi().searchSeries(editText.getText().toString(), null, null);
+                    call.enqueue(new Callback<List<SeriesSummary>>() {
+                        @Override
+                        public void onResponse(Call<List<SeriesSummary>> call, Response<List<SeriesSummary>> response) {
+                            List<SeriesSummary> result = response.body();
+                            final OnlineStoreFragmentAdapter adapter = new OnlineStoreFragmentAdapter(App.getContext(), result);
+                            listView.setAdapter(adapter);
+                        }
+
+                        @Override
+                        public void onFailure(Call<List<SeriesSummary>> call, Throwable t) {
+
+                        }
+                    });
+                }
+                return false;
             }
         });
 
