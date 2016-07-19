@@ -88,7 +88,8 @@ public class VideoFlashCardActivity extends AppCompatActivity implements Manifes
         playlistFetcher = new ManifestFetcher<>(word.getMovieURL(), new DefaultUriDataSource(this, userAgent), parser);
         playlistFetcher.singleLoad(mainHandler.getLooper(), this);
 
-        playerControl.seekTo(500000);
+
+
     }
 
     @Override
@@ -124,6 +125,26 @@ public class VideoFlashCardActivity extends AppCompatActivity implements Manifes
         playerControl = new PlayerControl(player);
         ControllerLayout.setVisibility(View.GONE);
         Nodata.loadUrl("file:///android_asset/html/nodata.html");
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                int totalTime = (currentWord.getStopTime()-currentWord.getPlayTime())*1000;
+                playerControl.seekTo((seekBar.getProgress()*totalTime)/100);
+
+            }
+        });
+
 
         showTranslate_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -196,6 +217,7 @@ public class VideoFlashCardActivity extends AppCompatActivity implements Manifes
                     break;
             }
         }
+
     }
 
     @Override
@@ -218,6 +240,7 @@ public class VideoFlashCardActivity extends AppCompatActivity implements Manifes
         player.addListener(this);
         if (requestFocus())
             player.setPlayWhenReady(true);
+        playerControl.seekTo(currentWord.getPlayTime()*1000);
 
 
 
@@ -296,7 +319,7 @@ public class VideoFlashCardActivity extends AppCompatActivity implements Manifes
 
     @Override
     public void onPlayWhenReadyCommitted() {
-        playerControl.seekTo(currentWord.getPlayTime()*1000);
+
 /*        Timer t =new Timer();
         t.schedule(new TimerTask() {
             @Override

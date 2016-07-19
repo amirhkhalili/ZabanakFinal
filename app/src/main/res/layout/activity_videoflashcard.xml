@@ -84,7 +84,7 @@
                 android:id="@+id/btn_play"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
-                android:background="@mipmap/play" />
+                android:background="@mipmap/pause" />
 
             <ImageView
                 android:layout_width="68dp"
@@ -92,7 +92,7 @@
                 android:id="@+id/btn_pause"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
-                android:background="@mipmap/pause" />
+                android:background="@mipmap/play" />
 
             <ImageView
                 android:layout_width="58dp"
@@ -159,7 +159,7 @@
                 android:layout_marginBottom="15dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:visibility="invisible" />
+                android:visibility="visible" />
 
         </RelativeLayout>
     </RelativeLayout>

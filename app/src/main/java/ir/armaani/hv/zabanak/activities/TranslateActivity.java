@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -24,7 +25,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class TranslateActivity extends ActionBarActivity {
-    ImageView okWord_btn,nkWord_btn;
+    RelativeLayout okWord_layout,nkWord_layout;
     TextView word,wordTranslate;
 
     public Word getWordItem() {
@@ -54,10 +55,10 @@ public class TranslateActivity extends ActionBarActivity {
         final TranslateTabAdapter adapter = new TranslateTabAdapter(getSupportFragmentManager(), t.getTabCount());
         viewPager.setAdapter(adapter);
 
-        okWord_btn = (ImageView)findViewById(R.id.okWord);
-        nkWord_btn = (ImageView)findViewById(R.id.nkWord);
+        okWord_layout = (RelativeLayout) findViewById(R.id.okWordLayout);
+        nkWord_layout = (RelativeLayout)findViewById(R.id.nkWordLayout);
 
-        okWord_btn.setOnClickListener(new View.OnClickListener() {
+        okWord_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
@@ -72,7 +73,7 @@ public class TranslateActivity extends ActionBarActivity {
             }
         });
 
-        nkWord_btn.setOnClickListener(new View.OnClickListener() {
+        nkWord_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {

@@ -2,7 +2,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="320dp"
-    android:layout_height="480dp"
+    android:layout_height="500dp"
     tools:context=".activities.MainActivity">
 
     <RelativeLayout
@@ -21,7 +21,7 @@
             android:id="@+id/word_txt"
             android:layout_marginBottom="0dp"
             android:gravity="center"
-            android:textSize="30dp" />
+            android:textSize="14dp" />
 
         <ir.armaani.hv.zabanak.activities.uiComponent.SanseTextview
             android:layout_width="fill_parent"
@@ -32,7 +32,8 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:gravity="end"
-            android:textAlignment="viewEnd" />
+            android:textAlignment="viewEnd"
+            android:textSize="12dp" />
 
     </RelativeLayout>
 
@@ -59,36 +60,85 @@
     <RelativeLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:id="@+id/linearLayout2"
-        android:background="#212121">
+        android:background="#212121"
+        android:weightSum="1.0">
 
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="72dp"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:weightSum="1.0"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true">
+            android:layout_centerHorizontal="true"
+            android:visibility="visible"
+            android:id="@+id/linearLayout">
 
-            <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:id="@+id/okWord"
-                android:background="@mipmap/ic_okword"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp" />
+            <RelativeLayout
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:layout_width="0dip"
+                android:background="#59b573"
+                android:id="@+id/okWordLayout"
+                android:padding="3dp">
 
-            <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:id="@+id/nkWord"
-                android:background="@mipmap/ic_nkword"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp" />
+                <ImageView
+                    android:layout_width="54dp"
+                    android:layout_height="54dp"
+                    android:id="@+id/okWord"
+                    android:background="@mipmap/ic_okword"
+                    android:visibility="visible"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
+
+                <ir.armaani.hv.zabanak.activities.uiComponent.SanseTextview
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ساده بود، متوجه شدم"
+                    android:id="@+id/textView4"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/okWord"
+                    android:layout_toStartOf="@+id/okWord"
+                    android:textSize="9dp"
+                    android:textColor="#fff" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:layout_width="0dip"
+                android:background="#f05f51"
+                android:id="@+id/nkWordLayout"
+                android:padding="3dp">
+
+                <ImageView
+                    android:layout_width="54dp"
+                    android:layout_height="54dp"
+                    android:id="@+id/nkWord"
+                    android:background="@mipmap/ic_nkword"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:visibility="visible" />
+
+                <ir.armaani.hv.zabanak.activities.uiComponent.SanseTextview
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="سخت بود، بیشتر تکرار شود"
+                    android:id="@+id/textView5"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/nkWord"
+                    android:layout_toEndOf="@+id/nkWord"
+                    android:textSize="9dp"
+                    android:textColor="#fff" />
+            </RelativeLayout>
+
         </LinearLayout>
+
     </RelativeLayout>
 
 </RelativeLayout>
