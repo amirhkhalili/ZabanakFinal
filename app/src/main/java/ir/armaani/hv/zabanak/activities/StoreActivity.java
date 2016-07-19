@@ -29,8 +29,8 @@ public class StoreActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setText("مجموعه های موجود"));
-        tabLayout.addTab(tabLayout.newTab().setText("افزودن مجموعه"));
+        tabLayout.addTab(tabLayout.newTab().setText("مجموعه های من"));
+        tabLayout.addTab(tabLayout.newTab().setText("دریافت مجموعه جدید"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
