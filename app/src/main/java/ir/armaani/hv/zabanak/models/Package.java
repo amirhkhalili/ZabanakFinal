@@ -117,7 +117,7 @@ public class Package extends SugarRecord implements Serializable {
     }
 
     public Integer getCountOfExpiredWords() {
-        Long expiredWordsCount = Word.count(Word.class, "A_PACKAGE = ? AND NEXT_REVIEW_DATE IS NULL AND NEXT_REVIEW_DATE < ?", new String[]{getId().toString(), String.valueOf(new LocalDate().toDate().getTime())});
+        Long expiredWordsCount = Word.count(Word.class, "A_PACKAGE = ? AND NEXT_REVIEW_DATE IS NOT NULL AND NEXT_REVIEW_DATE < ?", new String[]{getId().toString(), String.valueOf(new LocalDate().toDate().getTime())});
         return expiredWordsCount.intValue();
     }
 

@@ -45,21 +45,30 @@ public class PakageActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent myIntent = new Intent(PakageActivity.this, VideoFlashCardActivity.class);
                 Package aPackage = adapter.getItem(position);
-                try {
-                    aPackage.startLearning();
-                    myIntent.putExtra("package", adapter.getItem(position)); //Optional parameters
-                    myIntent.putExtra("packageId" , adapter.getItem(position).getId());
-                    PakageActivity.this.startActivity(myIntent);
-                } catch (AlreadyStartedLearningException e) {
-                    myIntent.putExtra("package", adapter.getItem(position)); //Optional parameters
-                    myIntent.putExtra("packageId" , adapter.getItem(position).getId());
-                    PakageActivity.this.startActivity(myIntent);
-                } catch (DependedPackageNotLearnedYetException e) {
-                    //e.printStackTrace();
-                } catch (AlreadyFinishedLearningException e) {
-                    //e.printStackTrace();
+                if (aPackage.isLearningStarted()) {
+                    if (aPackage.getCountOfExpiredWords() > 0)
+                        aPackage.resetAllExpiredWords();
+                    if (aPackage.getCountOfTodayWords() > 0) {
+                        Intent myIntent = new Intent(PakageActivity.this, VideoFlashCardActivity.class);
+                        myIntent.putExtra("package", adapter.getItem(position)); //Optional parameters
+                        myIntent.putExtra("packageId", adapter.getItem(position).getId());
+                        PakageActivity.this.startActivity(myIntent);
+                    }
+                }else{
+                    try {
+                        aPackage.startLearning();
+                        Intent myIntent = new Intent(PakageActivity.this, VideoFlashCardActivity.class);
+                        myIntent.putExtra("package", adapter.getItem(position)); //Optional parameters
+                        myIntent.putExtra("packageId", adapter.getItem(position).getId());
+                        PakageActivity.this.startActivity(myIntent);
+                    } catch (AlreadyStartedLearningException e) {
+                        //
+                    } catch (DependedPackageNotLearnedYetException e) {
+                        //e.printStackTrace();
+                    } catch (AlreadyFinishedLearningException e) {
+//                        e.printStackTrace();
+                    }
                 }
             }
         });

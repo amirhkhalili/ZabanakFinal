@@ -101,8 +101,14 @@ public class VideoFlashCardActivity extends AppCompatActivity implements Manifes
         if (packageItem.getId() == null)
             packageItem.setId(intent.getLongExtra("packageId", 0));
         wordsList = packageItem.getTodayWords();
-        if (wordsList == null) finish();
-        if (wordsList.size() < 1) finish();
+        if (wordsList == null) {
+            finish();
+            return;
+        }
+        if (wordsList.size() < 1) {
+            finish();
+            return;
+        }
 
         nextSub = (ImageView) findViewById(R.id.nextSub);
         nextTime = (ImageView) findViewById(R.id.nextTime);
@@ -137,7 +143,6 @@ public class VideoFlashCardActivity extends AppCompatActivity implements Manifes
 
             }
         });
-
 
 
         ControllerLayout.setOnClickListener(new View.OnClickListener() {
@@ -220,7 +225,6 @@ public class VideoFlashCardActivity extends AppCompatActivity implements Manifes
             player.setPlayWhenReady(true);
 
 
-
         nextTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -296,7 +300,7 @@ public class VideoFlashCardActivity extends AppCompatActivity implements Manifes
 
     @Override
     public void onPlayWhenReadyCommitted() {
-        playerControl.seekTo(currentWord.getPlayTime()*1000);
+        playerControl.seekTo(currentWord.getPlayTime() * 1000);
 /*        Timer t =new Timer();
         t.schedule(new TimerTask() {
             @Override
