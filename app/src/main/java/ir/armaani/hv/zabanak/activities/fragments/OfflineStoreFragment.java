@@ -1,6 +1,5 @@
 package ir.armaani.hv.zabanak.activities.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,7 +9,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import ir.armaani.hv.zabanak.R;
-import ir.armaani.hv.zabanak.activities.PakageActivity;
 import ir.armaani.hv.zabanak.activities.adapters.SeriesListViewAdapter;
 import ir.armaani.hv.zabanak.models.Series;
 
@@ -33,17 +31,6 @@ public class OfflineStoreFragment extends Fragment {
 
             }
         });
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent myIntent = new Intent(getActivity(), PakageActivity.class);
-                myIntent.putExtra("series", adapter.getItem(position)); //Optional parameters
-                myIntent.putExtra("seriesId" , adapter.getItem(position).getId());
-                getActivity().startActivity(myIntent);
-            }
-        });
-
         return rootView;
 
     }

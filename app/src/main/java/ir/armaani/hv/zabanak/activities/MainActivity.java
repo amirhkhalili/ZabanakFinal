@@ -9,7 +9,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
@@ -23,7 +22,6 @@ import ir.armaani.hv.zabanak.models.Series;
 public class MainActivity extends AppCompatActivity {
 
     RelativeLayout add;
-    ImageView help;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,18 +53,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent myIntent = new Intent(MainActivity.this, StoreActivity.class);
                 MainActivity.this.startActivity(myIntent);
-
             }
         });
-        help = (ImageView) findViewById(R.id.help_btm);
-        help.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent myIntent = new Intent(MainActivity.this, HelpActivity.class);
-                MainActivity.this.startActivity(myIntent);
-            }
-        });
-
     }
 
 }

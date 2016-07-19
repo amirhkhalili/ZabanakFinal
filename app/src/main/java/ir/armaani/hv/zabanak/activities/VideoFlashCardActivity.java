@@ -1,21 +1,26 @@
 package ir.armaani.hv.zabanak.activities;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaCodec;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.accessibility.CaptioningManager;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.exoplayer.C;
 import com.google.android.exoplayer.DefaultLoadControl;
 import com.google.android.exoplayer.ExoPlaybackException;
 import com.google.android.exoplayer.ExoPlayer;
@@ -23,6 +28,8 @@ import com.google.android.exoplayer.LoadControl;
 import com.google.android.exoplayer.MediaCodecAudioTrackRenderer;
 import com.google.android.exoplayer.MediaCodecSelector;
 import com.google.android.exoplayer.MediaCodecVideoTrackRenderer;
+import com.google.android.exoplayer.MediaFormat;
+import com.google.android.exoplayer.SingleSampleSource;
 import com.google.android.exoplayer.TrackRenderer;
 import com.google.android.exoplayer.chunk.ChunkSampleSource;
 import com.google.android.exoplayer.chunk.ChunkSource;
@@ -34,11 +41,15 @@ import com.google.android.exoplayer.dash.mpd.MediaPresentationDescription;
 import com.google.android.exoplayer.dash.mpd.MediaPresentationDescriptionParser;
 import com.google.android.exoplayer.hls.HlsSampleSource;
 import com.google.android.exoplayer.hls.PtsTimestampAdjusterProvider;
+import com.google.android.exoplayer.text.CaptionStyleCompat;
+import com.google.android.exoplayer.text.SubtitleLayout;
+import com.google.android.exoplayer.text.TextTrackRenderer;
 import com.google.android.exoplayer.upstream.DataSource;
 import com.google.android.exoplayer.upstream.DefaultAllocator;
 import com.google.android.exoplayer.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer.upstream.DefaultUriDataSource;
 import com.google.android.exoplayer.util.ManifestFetcher;
+import com.google.android.exoplayer.util.MimeTypes;
 import com.google.android.exoplayer.util.PlayerControl;
 import com.google.android.exoplayer.util.Util;
 
@@ -47,6 +58,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import ir.armaani.hv.zabanak.App;
 import ir.armaani.hv.zabanak.R;
 import ir.armaani.hv.zabanak.models.Package;
 import ir.armaani.hv.zabanak.models.Word;
@@ -77,18 +89,26 @@ public class VideoFlashCardActivity extends AppCompatActivity implements Manifes
     private Integer currentWordId;
     private Word currentWord;
     private Button showTranslate_btn;
+    private SubtitleLayout subtitleLayout;
+    private String subtitle;
+    Timer t;
 
     public void loadWordToActivity(Word word) {
 
         words_txt.setText(word.getWord());
+        subtitle= word.getEnSubtitleURL();
+        configureSubtitleView();
         img.setImageBitmap(word.getaPackage().getSeries().getImage());
         seekBar.setProgress(50);
+
+
 
         MediaPresentationDescriptionParser parser = new MediaPresentationDescriptionParser();
         playlistFetcher = new ManifestFetcher<>(word.getMovieURL(), new DefaultUriDataSource(this, userAgent), parser);
         playlistFetcher.singleLoad(mainHandler.getLooper(), this);
 
-        playerControl.seekTo(500000);
+
+
     }
 
     @Override
@@ -101,14 +121,8 @@ public class VideoFlashCardActivity extends AppCompatActivity implements Manifes
         if (packageItem.getId() == null)
             packageItem.setId(intent.getLongExtra("packageId", 0));
         wordsList = packageItem.getTodayWords();
-        if (wordsList == null) {
-            finish();
-            return;
-        }
-        if (wordsList.size() < 1) {
-            finish();
-            return;
-        }
+        if (wordsList == null) finish();
+        if (wordsList.size() < 1) finish();
 
         nextSub = (ImageView) findViewById(R.id.nextSub);
         nextTime = (ImageView) findViewById(R.id.nextTime);
@@ -120,6 +134,7 @@ public class VideoFlashCardActivity extends AppCompatActivity implements Manifes
         ControllerLayout = (RelativeLayout) findViewById(R.id.ControllerLayout);
         img = (ImageView) findViewById(R.id.videoFlashcardBackground);
         surface = (SurfaceView) findViewById(R.id.surface_view); // we import surface
+        subtitleLayout = (SubtitleLayout) findViewById(R.id.subtitles);
         txt_playState = (TextView) findViewById(R.id.txt_playstate);
         btn_play = (ImageView) findViewById(R.id.btn_play);
         btn_pause = (ImageView) findViewById(R.id.btn_pause);
@@ -130,6 +145,27 @@ public class VideoFlashCardActivity extends AppCompatActivity implements Manifes
         playerControl = new PlayerControl(player);
         ControllerLayout.setVisibility(View.GONE);
         Nodata.loadUrl("file:///android_asset/html/nodata.html");
+
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                int totalTime = ((currentWord.getStopTime()*1000)-(currentWord.getPlayTime()*1000));
+                playerControl.seekTo((seekBar.getProgress()*totalTime)/100);
+
+            }
+        });
+
 
         showTranslate_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -179,6 +215,8 @@ public class VideoFlashCardActivity extends AppCompatActivity implements Manifes
         currentWordId = 0;
         currentWord = wordsList.get(currentWordId);
         loadWordToActivity(currentWord);
+
+
     }
 
     @Override
@@ -202,13 +240,14 @@ public class VideoFlashCardActivity extends AppCompatActivity implements Manifes
                     break;
             }
         }
+
     }
 
     @Override
     public void onSingleManifest(MediaPresentationDescription manifest) {
         LoadControl loadControl = new DefaultLoadControl(new DefaultAllocator(BUFFER_SEGMENT_SIZE));
         DefaultBandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
-        PtsTimestampAdjusterProvider timestampAdjusterProvider = new PtsTimestampAdjusterProvider();
+        //PtsTimestampAdjusterProvider timestampAdjusterProvider = new PtsTimestampAdjusterProvider();
         DataSource videoDataSource = new DefaultUriDataSource(this, bandwidthMeter, userAgent);
         ChunkSource videoChunkSource = new DashChunkSource(playlistFetcher, DefaultDashTrackSelector.newVideoInstance(this, true, false), videoDataSource, new FormatEvaluator.AdaptiveEvaluator(bandwidthMeter), MAIN_BUFFER_SEGMENTS, 10, null, null, TYPE_VIDEO);
         ChunkSampleSource videoSampleSource = new ChunkSampleSource(videoChunkSource, loadControl, MAIN_BUFFER_SEGMENTS * BUFFER_SEGMENT_SIZE);
@@ -217,6 +256,9 @@ public class VideoFlashCardActivity extends AppCompatActivity implements Manifes
         ChunkSource audioChunkSource = new DashChunkSource(playlistFetcher, DefaultDashTrackSelector.newAudioInstance(), audioDataSource, null, MAIN_BUFFER_SEGMENTS, 10, null, null, TYPE_VIDEO);
         ChunkSampleSource audioSampleSource = new ChunkSampleSource(audioChunkSource, loadControl, MAIN_BUFFER_SEGMENTS * BUFFER_SEGMENT_SIZE);
         MediaCodecAudioTrackRenderer audioRenderer = new MediaCodecAudioTrackRenderer(audioSampleSource, MediaCodecSelector.DEFAULT);
+        DataSource textDataSource = new DefaultUriDataSource(this, bandwidthMeter, userAgent);
+        SingleSampleSource textSampleSource = new SingleSampleSource(Uri.parse(subtitle),
+                textDataSource, MediaFormat.createTextFormat("0", MimeTypes.APPLICATION_SUBRIP, MediaFormat.NO_VALUE, C.MATCH_LONGEST_US, null));
         this.videoRenderer = videoRenderer;
         this.audioRenderer = audioRenderer;
         pushSurface(false);
@@ -224,6 +266,22 @@ public class VideoFlashCardActivity extends AppCompatActivity implements Manifes
         player.addListener(this);
         if (requestFocus())
             player.setPlayWhenReady(true);
+
+
+        t =new Timer();
+        t.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                seekBar.setProgress((playerControl.getCurrentPosition()*100)/(currentWord.getStopTime()*1000-currentWord.getPlayTime()*1000));
+                if(playerControl.getCurrentPosition()>(currentWord.getStopTime()*1000)){
+                    playerControl.pause();
+                    t.cancel();
+                }
+            }
+        } , 0 , 1000);
+        t.purge();
+
+        playerControl.seekTo(currentWord.getPlayTime()*1000);
 
 
 
@@ -302,16 +360,8 @@ public class VideoFlashCardActivity extends AppCompatActivity implements Manifes
 
     @Override
     public void onPlayWhenReadyCommitted() {
-        playerControl.seekTo(currentWord.getPlayTime()*1000);
-/*        Timer t =new Timer();
-        t.schedule(new TimerTask() {
-            @Override
-            public void run() {
 
-            }
-        } , 0 , 1000);
-        t.purge();
-        t.cancel();*/
+
     }
 
     @Override
@@ -368,5 +418,30 @@ public class VideoFlashCardActivity extends AppCompatActivity implements Manifes
             ControllerLayout.setVisibility(View.GONE);
         }
 
+    }
+    @TargetApi(19)
+    private float getUserCaptionFontScaleV19() {
+        CaptioningManager captioningManager =
+                (CaptioningManager) getSystemService(Context.CAPTIONING_SERVICE);
+        return captioningManager.getFontScale();
+    }
+    @TargetApi(19)
+    private CaptionStyleCompat getUserCaptionStyleV19() {
+        CaptioningManager captioningManager =
+                (CaptioningManager) getSystemService(Context.CAPTIONING_SERVICE);
+        return CaptionStyleCompat.createFromCaptionStyle(captioningManager.getUserStyle());
+    }
+    private void configureSubtitleView() {
+        CaptionStyleCompat style;
+        float fontScale;
+        if (Util.SDK_INT >= 19) {
+            style = getUserCaptionStyleV19();
+            fontScale = getUserCaptionFontScaleV19();
+        } else {
+            style = CaptionStyleCompat.DEFAULT;
+            fontScale = 1.0f;
+        }
+        subtitleLayout.setStyle(style);
+        subtitleLayout.setFractionalTextSize(SubtitleLayout.DEFAULT_TEXT_SIZE_FRACTION * fontScale);
     }
 }
