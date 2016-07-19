@@ -28,7 +28,9 @@ public class MessageActivity extends ActionBarActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent myIntent = new Intent(MessageActivity.this, MainActivity.class);
+                MessageActivity.this.startActivity(myIntent);
+                finish();
             }
         });
 
