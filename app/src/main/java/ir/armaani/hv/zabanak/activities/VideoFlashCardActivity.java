@@ -101,8 +101,14 @@ public class VideoFlashCardActivity extends AppCompatActivity implements Manifes
         if (packageItem.getId() == null)
             packageItem.setId(intent.getLongExtra("packageId", 0));
         wordsList = packageItem.getTodayWords();
-        if (wordsList == null) finish();
-        if (wordsList.size() < 1) finish();
+        if (wordsList == null) {
+            finish();
+            return;
+        }
+        if (wordsList.size() < 1) {
+            finish();
+            return;
+        }
 
         nextSub = (ImageView) findViewById(R.id.nextSub);
         nextTime = (ImageView) findViewById(R.id.nextTime);
