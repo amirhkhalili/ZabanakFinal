@@ -69,7 +69,7 @@
         <activity android:name=".activities.MessageActivity"></activity>
 
         <service
-            android:name="."
+            android:name=".NotificationHandler"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.onesignal.NotificationExtender" />
