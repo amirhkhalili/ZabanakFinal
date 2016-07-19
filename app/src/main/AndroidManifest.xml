@@ -67,6 +67,14 @@
             android:excludeFromRecents="true"
             android:theme="@style/AlertDialogTheme" />
         <activity android:name=".activities.MessageActivity"></activity>
+
+        <service
+            android:name="."
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.onesignal.NotificationExtender" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
