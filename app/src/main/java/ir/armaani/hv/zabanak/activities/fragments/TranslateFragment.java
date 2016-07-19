@@ -24,12 +24,15 @@ import retrofit2.Response;
 
 public class TranslateFragment extends Fragment {
     ListView listView;
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //return inflater.inflate(R.layout.translate_example_fragment, container, false);
-        View rootView = inflater.inflate(R.layout.translate_example_fragment, container, false);
-        listView = (ListView)rootView.findViewById(R.id.listView_translate);
-        Word wordItem = ((TranslateActivity)getActivity()).getWordItem();
+    Integer source;
+
+    public void setSource(Integer source) {
+        this.source = source;
+    }
+
+    Word wordItem;
+
+    public void loadPerianMeaning() {
 
         Call<List<String>> call1 = RestClient.getApi().getPersianMeaning(wordItem.getWord());
         call1.enqueue(new Callback<List<String>>() {
@@ -45,6 +48,9 @@ public class TranslateFragment extends Fragment {
 
             }
         });
+    }
+
+    public void loadEnglishMeaning() {
 
         Call<List<String>> call2 = RestClient.getApi().getEnglishMeaning(wordItem.getWord());
         call2.enqueue(new Callback<List<String>>() {
@@ -60,6 +66,9 @@ public class TranslateFragment extends Fragment {
 
             }
         });
+    }
+
+    public void loadExamples() {
 
         Call<List<Sentence>> call3 = RestClient.getApi().getExamples(wordItem.getWord());
         call3.enqueue(new Callback<List<Sentence>>() {
@@ -76,6 +85,28 @@ public class TranslateFragment extends Fragment {
 
             }
         });
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        //return inflater.inflate(R.layout.translate_example_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.translate_example_fragment, container, false);
+        listView = (ListView)rootView.findViewById(R.id.listView_translate);
+
+
+        wordItem = ((TranslateActivity)getActivity()).getWordItem();
+        switch (source) {
+            case 1:
+                loadExamples();
+                break;
+            case 2:
+                loadEnglishMeaning();
+                break;
+            case 3:
+                loadPerianMeaning();
+                break;
+        }
+
 
         return rootView;
 

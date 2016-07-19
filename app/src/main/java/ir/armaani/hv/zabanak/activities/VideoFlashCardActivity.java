@@ -44,6 +44,8 @@ import com.google.android.exoplayer.util.Util;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import ir.armaani.hv.zabanak.R;
 import ir.armaani.hv.zabanak.models.Package;
@@ -113,7 +115,7 @@ public class VideoFlashCardActivity extends AppCompatActivity implements Manifes
         img = (ImageView) findViewById(R.id.videoFlashcardBackground);
         surface = (SurfaceView) findViewById(R.id.surface_view); // we import surface
         txt_playState = (TextView) findViewById(R.id.txt_playstate);
-        btn_play = (ImageView) findViewById(R.id.btn_pause);
+        btn_play = (ImageView) findViewById(R.id.btn_play);
         btn_pause = (ImageView) findViewById(R.id.btn_pause);
         VideoLayout = (RelativeLayout) findViewById(R.id.VideoLayout);
         words_txt = (TextView) findViewById(R.id.words_txt);
@@ -135,6 +137,8 @@ public class VideoFlashCardActivity extends AppCompatActivity implements Manifes
 
             }
         });
+
+
 
         ControllerLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -293,6 +297,15 @@ public class VideoFlashCardActivity extends AppCompatActivity implements Manifes
     @Override
     public void onPlayWhenReadyCommitted() {
         playerControl.seekTo(currentWord.getPlayTime()*1000);
+/*        Timer t =new Timer();
+        t.schedule(new TimerTask() {
+            @Override
+            public void run() {
+
+            }
+        } , 0 , 1000);
+        t.purge();
+        t.cancel();*/
     }
 
     @Override

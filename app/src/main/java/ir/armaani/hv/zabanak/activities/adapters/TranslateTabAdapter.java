@@ -23,12 +23,15 @@ public class TranslateTabAdapter extends FragmentStatePagerAdapter {
         switch (position) {
             case 0:
                 TranslateFragment tab3 = new TranslateFragment();
+                tab3.setSource(3);
                 return tab3;
             case 1:
                 TranslateFragment tab4 = new TranslateFragment();
+                tab4.setSource(2);
                 return tab4;
             case 2:
                 TranslateFragment tab5 = new TranslateFragment();
+                tab5.setSource(1);
                 return tab5;
 
             default:
