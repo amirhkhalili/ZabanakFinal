@@ -66,7 +66,7 @@
             android:name=".activities.TranslateActivity"
             android:excludeFromRecents="true"
             android:theme="@style/AlertDialogTheme" />
-        <activity android:name=".activities.MessageActivity"></activity>
+        <activity android:name=".activities.MessageActivity" />
 
         <service
             android:name=".NotificationHandler"
@@ -75,6 +75,9 @@
                 <action android:name="com.onesignal.NotificationExtender" />
             </intent-filter>
         </service>
+
+        <activity android:name=".activities.HelpActivity"
+            android:screenOrientation="landscape"></activity>
     </application>
 
 </manifest>

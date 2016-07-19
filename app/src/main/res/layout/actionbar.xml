@@ -29,73 +29,51 @@
         android:paddingTop="4dp"
         android:visibility="visible" />
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <RelativeLayout
         android:layout_height="fill_parent"
-        android:layout_width="fill_parent"
-        android:weightSum="1.0"
+        android:layout_width="90dp"
+        android:id="@+id/AddSeriesLayout"
         android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/help_btm"
+        android:layout_toEndOf="@+id/help_btm">
+
+        <ir.armaani.hv.zabanak.activities.uiComponent.SanseTextview
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="+"
+            android:id="@+id/textView3"
+            android:textColor="#FFF"
+            android:paddingTop="6dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="0dp" />
+
+        <ir.armaani.hv.zabanak.activities.uiComponent.SanseTextview
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="مجموعه جدید"
+            android:id="@+id/textView2"
+            android:textSize="12dp"
+            android:paddingRight="3dp"
+            android:textColor="#FFF"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/textView3"
+            android:layout_toStartOf="@+id/textView3"
+            android:paddingTop="2dp" />
+
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/help_btm"
+        android:background="@drawable/ic_help"
+        android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/textView"
-        android:layout_toStartOf="@+id/textView">
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight=".1"
-            android:id="@+id/helpLayout">
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:id="@+id/imageView3"
-                android:background="@drawable/ic_help"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_height="fill_parent"
-            android:layout_weight=".3"
-            android:layout_width="0dip"
-            android:id="@+id/AddSeriesLayout"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true">
-
-            <ir.armaani.hv.zabanak.activities.uiComponent.SanseTextview
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="+"
-                android:id="@+id/textView3"
-                android:textColor="#FFF"
-                android:paddingTop="6dp"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginRight="0dp" />
-
-            <ir.armaani.hv.zabanak.activities.uiComponent.SanseTextview
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="مجموعه جدید"
-                android:id="@+id/textView2"
-                android:textSize="12dp"
-                android:paddingRight="3dp"
-                android:textColor="#FFF"
-                android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/textView3"
-                android:layout_toStartOf="@+id/textView3"
-                android:paddingTop="2dp" />
-
-        </RelativeLayout>
-
-
-
-    </LinearLayout>
+        android:layout_marginRight="10dp" />
 
 </RelativeLayout>
